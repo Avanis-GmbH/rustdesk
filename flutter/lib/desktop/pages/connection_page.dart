@@ -212,14 +212,14 @@ class _ConnectionPageState extends State<ConnectionPage>
   void initState() {
     super.initState();
     if (_idController.text.isEmpty) {
-      () async {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
         final lastRemoteId = await bind.mainGetLastRemoteId();
         if (lastRemoteId != _idController.id) {
           setState(() {
             _idController.id = lastRemoteId;
           });
         }
-      }();
+      });
     }
     Get.put<IDTextEditingController>(_idController);
     windowManager.addListener(this);
@@ -340,7 +340,7 @@ class _ConnectionPageState extends State<ConnectionPage>
                           ?.merge(TextStyle(height: 1)),
                     ).marginOnly(right: 4),
                     Tooltip(
-                      waitDuration: Duration(milliseconds: 0),
+                      waitDuration: Duration(milliseconds: 300),
                       message: translate("id_input_tip"),
                       child: Icon(
                         Icons.help_outline_outlined,
